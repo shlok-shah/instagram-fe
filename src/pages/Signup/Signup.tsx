@@ -15,12 +15,12 @@ import {
 import { useFormik } from "formik";
 import { MdOutlineMail } from "react-icons/md";
 import { HiLockClosed } from "react-icons/hi";
-import { TbEye, TbEyeClosed } from "react-icons/tb";
-import { useState } from "react";
 import { userApi } from "../../utils/axios";
 import { AxiosError, AxiosResponse } from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
+	const navigate = useNavigate();
 	const formik = useFormik({
 		initialValues: {
 			email: "",
@@ -34,6 +34,7 @@ const Signup = () => {
 			try {
 				const res: AxiosResponse = await userApi.post("/signup", { data: values });
 				console.log(res.data);
+				navigate("/");
 			} catch (err: unknown) {
 				if (err instanceof AxiosError) {
 					console.log(err.message);

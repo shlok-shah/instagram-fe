@@ -20,9 +20,12 @@ import { TbEye, TbEyeClosed } from "react-icons/tb";
 import { useState } from "react";
 import { userApi } from "../../utils/axios";
 import { AxiosError } from "axios";
-import { isElementAccessExpression } from "typescript";
+import { Navigate, useNavigate } from "react-router-dom";
+import { CustomToast } from "../../components/toast";
 
 const Login = () => {
+	const navigate = useNavigate();
+	const { addToast } = CustomToast();
 	const [showPass, setShowPass] = useState(false);
 	const handleClick = () => setShowPass(!showPass);
 	const formik = useFormik({
@@ -35,10 +38,16 @@ const Login = () => {
 			try {
 				const res = await userApi.post("/login", { data: values });
 				console.log(res.data);
-			} catch (err: unknown) {
+				addToast({ message: "Successfully Logged In", type: "success" });
+				navigate("/");
+			} catch (err: any) {
 				if (err instanceof AxiosError) {
-					console.log(err.message);
+					addToast({
+						message: `${err.response ? err.response.data.message : err.message}`,
+						type: "error",
+					});
 				} else {
+					addToast({ message: `Some error occurred`, type: "error" });
 					console.log(err);
 				}
 			}

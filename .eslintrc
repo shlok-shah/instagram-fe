@@ -21,6 +21,7 @@
 		"no-unused-vars": "warn",
 		"react/prop-types": 0,
 		"no-inner-declarations": "off",
-		"no-mixed-spaces-and-tabs": "off"
+		"no-mixed-spaces-and-tabs": "off",
+		"no-undef": "off"
 	}
 }
